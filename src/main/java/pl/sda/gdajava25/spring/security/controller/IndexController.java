@@ -23,6 +23,11 @@ public class IndexController {
 
     @GetMapping("/tylkoDlaKozakow")
     public String tylkoDlaKozakow() {
-        return "index";
+        return "index-koazk";
+    }
+
+    @GetMapping("/adminIndex")
+    public String adminIndex() {
+        return "index-admin";
     }
 }

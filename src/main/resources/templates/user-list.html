@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments :: headerlinks" th:remove="tag"></div>
+    <meta charset="UTF-8">
+    <title>User List</title>
+</head>
+<body>
+<header th:replace="fragments :: navigator"></header>
+<main role="main" class="main">
+    <center>
+        <h1 class="display-4">User List</h1>
+        <table class="table table-borderless table-dark col-md-10 table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Role</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <th scope="row" th:text="${user.getId()}"></th>
+                <td th:text="${user.getUsername()}"></td>
+                <td th:each="role : ${user.getAccountRoles()}">
+                    <div th:text="${role.getName()}"></div>
+                </td>
+                <td>
+                    <div th:if="${!user.isAdmin()}">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <a th:href="@{'/admin/account/delete/'+${user.getId()}}"
+                               class="btn btn-danger"
+                               role="button">Kill</a>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <a th:href="@{'/admin/account/disable/'+${user.getId()}}"
+                               th:if="${user.isDisabled()== false}" class="btn btn-warning" role="button">Lock</a>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <a th:href="@{'/admin/account/enable/'+${user.getId()}}"
+                               th:if="${user.isDisabled()== true}"
+                               class="btn btn-warning"
+                               role="button">Unlock</a>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <a th:href="@{'/admin/account/reset/'+${user.getId()}}"
+                               class="btn btn-warning"
+                               role="button">Reset Password</a>
+                        </div>
+                    </div>
+                    <div th:if="${user.isAdmin()}">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <a th:href="@{'/adminIndex'}"
+                               class="btn btn-warning"
+                               role="button">Admin</a>
+                        </div>
+
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </center>
+
+</main>
+<footer th:replace="fragments :: footer"></footer>
+<div th:replace="fragments :: footerscripts"></div>
+</body>
